@@ -1,0 +1,35 @@
+= Addresses API
+
+
+== Overview
+
+This is a small project showcasing some technologies
+
+Regular Spring boot App,using #*Reactive Web*# also for database using #spring-boot-starter-data-r2dbc#
+ The idea is to use the **The Java Platform Module System (JPMS) **
+
+Java 17 Of course and Spring boot 2.5.5
+
+== Framework
+
+This is Built on top of Spring boot 2.5.5 and Java 17 with JPMS
+
+== Database
+
+For persistence a PostgreSQL using *spring-boot-starter-data-r2dbc*.
+
+Also using Records for Objects persistence
+
+== REST
+
+Using regular Reactive Streams, nothing fancy.
+With records as DTOs
+
+== Testing
+
+Some Unit testing,
+Test Containers.
+
+
+
+I'll keep updating this doc as I move on.
