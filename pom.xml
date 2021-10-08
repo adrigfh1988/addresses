@@ -23,8 +23,9 @@
 
 	<modules>
 		<module>application</module>
+		<module>address_service</module>
 		<module>persistence</module>
-		<module>address-service</module>
+
 	</modules>
 
 </project>

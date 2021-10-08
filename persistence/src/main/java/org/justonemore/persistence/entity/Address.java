@@ -1,4 +1,4 @@
-package entity;
+package org.justonemore.persistence.entity;
 
 import org.springframework.data.annotation.Id;
 
