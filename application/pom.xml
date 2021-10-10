@@ -20,25 +20,9 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>io.projectreactor</groupId>
-			<artifactId>reactor-test</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
 			<groupId>org.justonemore</groupId>
-			<artifactId>address_service</artifactId>
+			<artifactId>service</artifactId>
 			<version>${project.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.justonemore</groupId>
-			<artifactId>persistence</artifactId>
-			<version>1.0-SNAPSHOT</version>
 		</dependency>
 
 	</dependencies>
