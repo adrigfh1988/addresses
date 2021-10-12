@@ -17,9 +17,8 @@ public class PostgresIntegrationSetup {
 
 	@DynamicPropertySource
 	public static void overrideProps(DynamicPropertyRegistry registry) {
-		registry.add("spring.r2dbc.url", () -> "r2dbc:postgresql://"
-				+ postgresqlContainer.getHost() + ":" + postgresqlContainer.getFirstMappedPort()
-				+ "/" + postgresqlContainer.getDatabaseName());
+		registry.add("spring.r2dbc.url", () -> "r2dbc:postgresql://" + postgresqlContainer.getHost() + ":"
+				+ postgresqlContainer.getFirstMappedPort() + "/" + postgresqlContainer.getDatabaseName());
 		registry.add("spring.r2dbc.username", () -> postgresqlContainer.getUsername());
 		registry.add("spring.r2dbc.password", () -> postgresqlContainer.getPassword());
 	}
