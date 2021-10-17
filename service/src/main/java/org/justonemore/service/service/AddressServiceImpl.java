@@ -26,7 +26,23 @@ public class AddressServiceImpl implements AddressService {
 	public Mono<AddressResponseRecord> createAddress(AddressRecordCreationRequest addressRecordCreationRequest) {
 
 		Address address = addressMapper.mapRequestToEntity(addressRecordCreationRequest, null);
-		return addressRepository.save(address).map(addressMapper::mapEntityToResponse);
+
+		return isAddressValidToSave(address).doOnError(Mono::error).filter(Boolean::booleanValue)
+				.map(aBoolean -> address).flatMap((Address addressToSave) -> addressRepository.save(address))
+				.map(addressMapper::mapEntityToResponse);
+
+	}
+
+	private Mono<Boolean> isAddressValidToSave(Address address) {
+
+		return addressRepository.existsAddressByPersonIdentifierAndCityAndCountryAndPostalCodeAndProvinceAndStreetName(
+				address.personIdentifier(), address.city(), address.country(), address.postalCode(), address.province(),
+				address.streetName()).map(addressAlreadyExists -> {
+					if (Boolean.TRUE.equals(addressAlreadyExists)) {
+						throw new IllegalArgumentException("ADDRESS DUPLICATED");
+					}
+					return true;
+				});
 	}
 
 }
