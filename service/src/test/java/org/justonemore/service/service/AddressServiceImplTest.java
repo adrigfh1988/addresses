@@ -19,7 +19,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.r2dbc.core.DatabaseClient;
 
 @SpringBootTest(classes = IntegrationTestSpringContext.class)
-
 class AddressServiceImplTest extends PostgresIntegrationSetup {
 
 	@Autowired
@@ -48,13 +47,14 @@ class AddressServiceImplTest extends PostgresIntegrationSetup {
 							    street_name character varying(255) NOT NULL,
 							    postal_code character varying(5) NOT NULL,
 							    street_type character varying(10) NOT NULL
-							);""");
+							);
+							""");
 
-			statements.forEach(it -> database.sql(it) //
-					.fetch() //
-					.rowsUpdated() //
-					.as(StepVerifier::create) //
-					.expectNextCount(1) //
+			statements.forEach(it -> database.sql(it)
+					.fetch()
+					.rowsUpdated()
+					.as(StepVerifier::create)
+					.expectNextCount(1)
 					.verifyComplete());
 		}
 

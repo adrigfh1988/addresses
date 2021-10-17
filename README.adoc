@@ -1,12 +1,10 @@
 = Addresses API
 
-
 == Overview
 
 This is a small project showcasing some technologies
 
-Regular Spring boot App,using #*Reactive Web*# also for database using #spring-boot-starter-data-r2dbc#
- The idea is to use the **The Java Platform Module System (JPMS) **
+Regular Spring boot App,using #*Reactive Web*# also for database using #spring-boot-starter-data-r2dbc# The idea is to use the **The Java Platform Module System (JPMS) **
 
 Java 17 Of course and Spring boot 2.5.5
 
@@ -27,9 +25,64 @@ With records as DTOs
 
 == Testing
 
-Some Unit testing,
-Test Containers.
+Some Unit testing, Test Containers.
 
+== Modules
 
+=== Application
 
-I'll keep updating this doc as I move on.
+This module contains the Controller Layer only.
+
+=== Service
+
+This module contains all the logic, is called by the Application module.
+
+For testing this module, some adjustments where needed to be made in order to make work some Integration Tests using Test Containers
+
+Since R2DBC does not support
+
+----
+spring.jpa.hibernate.ddl-auto
+----
+
+the database creation was needed to be done manually, I think flyway can also do this for me.
+
+[source,java]
+----
+@BeforeEach
+void resetDataset() {
+            var statements = Arrays.asList(//
+					"DROP TABLE IF EXISTS address;", """
+							Create table address(
+							    id SERIAL PRIMARY KEY,
+							    person_identifier character varying(10) NOT NULL,
+							    city character varying(60) NOT NULL,
+							    province character varying(60) NOT NULL,
+							    country character varying(60) NOT NULL,
+							    street_name character varying(255) NOT NULL,
+							    postal_code character varying(5) NOT NULL,
+							    street_type character varying(10) NOT NULL
+							);
+							""");
+
+			statements.forEach(it -> database.sql(it)
+					.fetch()
+					.rowsUpdated()
+					.as(StepVerifier::create)
+					.expectNextCount(1)
+					.verifyComplete());
+}
+----
+
+Also, a Main class was needed because the @SpringBootTest was not picking the beans from the Persistence Layer.
+
+[source,java]
+----
+@SpringBootTest(classes = IntegrationTestSpringContext.class)
+----
+
+Not a fan on this, but it was the only way to make it work.
+
+=== Persistence
+
+This module contains the Database access layer, Mostly reactive repositories.
